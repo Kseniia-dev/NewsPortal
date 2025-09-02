@@ -1,0 +1,74 @@
+from django.contrib.auth.models import User
+from news.models import Author, Category, Post, Comment
+
+
+# 1) Два пользователя
+u1 = User.objects.create_user('user1')
+u2 = User.objects.create_user('user2')
+
+
+# 2) Два автора, связанные с пользователями
+a1 = Author.objects.create(user=u1)
+a2 = Author.objects.create(user=u2)
+
+
+# 3) Четыре категории
+c_economic = Category.objects.create(name='Экономика')
+c_sport = Category.objects.create(name='Спорт')
+c_education = Category.objects.create(name='Образование')
+c_culture = Category.objects.create(name='Культура')
+
+
+# 4) Две статьи и одна новость
+p1 = Post.objects.create(author=a2, type=Post.Type.ARTICLE, title='Футбольный турнир в МБОУ СОШ №10', text='Большой текст о футбольном турнире')
+p2 = Post.objects.create(author=a1, type=Post.Type.ARTICLE, title='Реформа образования', text='Мнение об изменениях в образовании...')
+p3 = Post.objects.create(author=a2, type=Post.Type.NEWS, title='Срочные новости', text='Короткая заметка о событии...')
+
+
+# 5) Присвоить категории
+p1.categories.add(c_sport, c_education)
+p2.categories.add(c_education)
+p3.categories.add(c_culture)
+
+
+# 6) Комментарии
+cm1 = Comment.objects.create(post=p1, user=u2, text='Отличная статья!')
+cm2 = Comment.objects.create(post=p1, user=u1, text='Спасибо за отзыв!')
+cm3 = Comment.objects.create(post=p2, user=u1, text='Сомнительные выводы...')
+cm4 = Comment.objects.create(post=p3, user=u2, text='Жду подробностей.')
+
+
+# 7) Лайки/дизлайки постов и комментариев
+p1.like(); p1.like(); p1.like()
+p2.dislike()
+p3.like()
+
+
+cm1.like(); cm1.like()
+cm2.dislike()
+cm3.like()
+cm4.dislike(); cm4.dislike()
+
+
+# 8) Обновление рейтинги авторов
+a1.update_rating(); a2.update_rating()
+
+
+# 9) Лучший пользователь
+best_author = Author.objects.order_by('-rating').values('user__username', 'rating').first()
+print('\nЛучший автор: ', best_author)
+
+
+# 10) Лучшая статья
+best_post = Post.objects.order_by('-rating').first()
+print('\nЛучшая статья:')
+print('Дата добавления :', best_post.created_at)
+print('Автор (username) :', best_post.author.user.username)
+print('Рейтинг :', best_post.rating)
+print('Заголовок :', best_post.title)
+print('Превью (124 симв.) :', best_post.preview())
+
+
+# 11) Все комментарии к лучшей статье
+for c in best_post.comments.select_related('user').all():
+    print(f"- {c.created_at} | {c.user.username} | rating={c.rating} | {c.text}")
