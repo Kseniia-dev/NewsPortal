@@ -1,0 +1,19 @@
+{% extends "flatpages/default.html" %}
+{% load custom_filters %}  <!-- подключаем свой фильтр -->
+
+{% block title %}Все новости{% endblock %}
+
+{% block content %}
+<h2>Список новостей</h2>
+<ul>
+    {% for post in posts %}
+        <li>
+            <a href="{% url 'news_detail' post.pk %}">{{ post.title|censor }}</a><br>
+            {{ post.created_at|date:"d.m.Y" }}<br>
+            {{ post.text|truncatechars:20|censor }}
+        </li>
+    {% empty %}
+        <li>Новостей пока нет!</li>
+    {% endfor %}
+</ul>
+{% endblock %}

@@ -1,0 +1,36 @@
+# Byte-compiled / cache
+__pycache__/
+**/__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtualenvs
+venv/
+env/
+.venv/
+ENV/
+
+# PyCharm / IDE
+.idea/
+.vscode/
+
+# Django
+*.log
+*.pot
+*.pyc
+*.sqlite3
+db.sqlite3
+media/
+staticfiles/
+local_settings.py
+
+# Migrations: НЕ игнорируем сами файлы миграций!
+*/migrations/__pycache__/
+
+# Testing
+.pytest_cache/
+
+# Packaging
+build/
+dist/
+*.egg-info/

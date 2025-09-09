@@ -3,8 +3,8 @@ from news.models import Author, Category, Post, Comment
 
 
 # 1) Два пользователя
-u1 = User.objects.create_user('user1')
-u2 = User.objects.create_user('user2')
+u1 = User.objects.create_user('first_user')
+u2 = User.objects.create_user('second_user')
 
 
 # 2) Два автора, связанные с пользователями
