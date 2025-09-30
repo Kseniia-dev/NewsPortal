@@ -1,19 +1,24 @@
 {% extends "flatpages/default.html" %}
-{% load custom_filters %}  <!-- подключаем свой фильтр -->
-
-{% block title %}Все новости{% endblock %}
 
 {% block content %}
-<h2>Список новостей</h2>
+<h2>Поиск новостей</h2>
+
+<form method="get">
+    {{ filterset.form.as_p }}
+    <button type="submit">Искать</button>
+</form>
+
+<hr>
+
 <ul>
     {% for post in posts %}
         <li>
-            <a href="{% url 'news_detail' post.pk %}">{{ post.title|censor }}</a><br>
-            {{ post.created_at|date:"d.m.Y" }}<br>
-            {{ post.text|truncatechars:20|censor }}
+            <a href="{% url 'news_detail' post.pk %}">{{ post.title }}</a>
+            — {{ post.author }}
+            — {{ post.created_at|date:"d.m.Y" }}
         </li>
     {% empty %}
-        <li>Новостей пока нет!</li>
+        <li>Ничего не найдено.</li>
     {% endfor %}
 </ul>
 
@@ -40,4 +45,4 @@
     {% endif %}
 {% endif %}
 
-{% endblock content %}
+{% endblock %}

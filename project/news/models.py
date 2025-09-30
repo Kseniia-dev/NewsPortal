@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import Sum
-
+from django.urls import reverse
 # Create your models here.
 class Author (models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='author')
@@ -59,6 +59,9 @@ class Post (models.Model):
     # превью первых 124 символов + «…»
     def preview(self):
         return (self.text[:124] + '...') if len(self.text) > 124 else self.text
+
+    def get_absolute_url(self):
+        return reverse('news_detail', args=[self.pk])
 
 
 class PostCategory(models.Model):

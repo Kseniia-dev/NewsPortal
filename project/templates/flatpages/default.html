@@ -3,6 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}NewsPortal{% endblock %}</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            text-align: center; /* всё содержимое по центру */
+        }
+        header {
+            margin-bottom: 20px;
+        }
+        main {
+            max-width: 800px; /* ограничим ширину, чтобы текст не "растягивался" */
+            margin: 0 auto;   /* по центру */
+            text-align: left; /* контент в статьях удобнее читать по левому краю */
+        }
+        h1, h2, h3 {
+            text-align: center; /* заголовки всегда по центру */
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -15,4 +33,5 @@
     </main>
 </body>
 </html>
+
 

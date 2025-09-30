@@ -21,7 +21,7 @@ from django.views.generic import TemplateView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    # path('pages/', include('django.contrib.flatpages.urls')),
     path('news/', include('news.urls')),
-path('', TemplateView.as_view(template_name='flatpages/default.html'), name='home'),
+    path('articles/', include('news.urls_articles')),
+    path('', TemplateView.as_view(template_name='flatpages/default.html'), name='home'),
 ]
