@@ -52,7 +52,7 @@
 - **Python 3.10+**  
 - **Django** — основной веб-фреймворк  
 - **SQLite** (по умолчанию) — база данных 
-- **HTML + Django templates** — фронтенд  
+- **HTML + Bootstrap + Django templates** — фронтенд  
 - **Git / GitHub** — система контроля версий  
 
 ---
