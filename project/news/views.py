@@ -17,7 +17,7 @@ class PostListView(ListView):
 
     template_name = 'flatpages/news.html'
     context_object_name = 'posts'
-    paginate_by= 10
+    paginate_by= 6
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -101,7 +101,7 @@ class NewsDeleteView(DeleteView):
 # --- ARTICLES (тип = ARTICLE) ---
 class ArticleDetailView(DetailView):
     model = Post
-    template_name = 'flatpages/article_detail.html'
+    template_name = 'flatpages/news_detail.html'
     context_object_name = 'article'
 
     def get_queryset(self):

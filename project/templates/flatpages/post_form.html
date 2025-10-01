@@ -2,11 +2,45 @@
 {% block title %}Создать / Редактировать{% endblock %}
 
 {% block content %}
-<h2>{% if object %}Редактирование{% else %}Создать{% endif %}</h2>
-<form method="post">
-    {% csrf_token %}
-    {{ form.non_field_errors }}
-    {{ form.as_p }}
-    <button type="submit">Сохранить</button>
-</form>
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h2 class="card-title text-center mb-4">
+                {% if object %}✏️ Редактирование новости{% else %}📰 Создать новость{% endif %}
+            </h2>
+
+            <form method="post">
+                {% csrf_token %}
+
+                <!-- Ошибки формы -->
+                {% if form.non_field_errors %}
+                    <div class="alert alert-danger">
+                        {{ form.non_field_errors }}
+                    </div>
+                {% endif %}
+
+                <!-- Поля формы -->
+                {% for field in form %}
+                    <div class="mb-3">
+                        <label class="form-label">{{ field.label }}</label>
+                        {{ field }}
+                        {% if field.errors %}
+                            <div class="text-danger small">
+                                {{ field.errors }}
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+
+                <!-- Кнопка -->
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-success">
+                        💾 Сохранить
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock %}
+

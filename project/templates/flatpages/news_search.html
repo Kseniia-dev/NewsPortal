@@ -1,48 +1,88 @@
 {% extends "flatpages/default.html" %}
 
 {% block content %}
-<h2>Поиск новостей</h2>
+<div class="container mt-4">
+    <h2 class="mb-4 text-center">🔍 Поиск новостей</h2>
 
-<form method="get">
-    {{ filterset.form.as_p }}
-    <button type="submit">Искать</button>
-</form>
+    <!-- Форма поиска -->
+    <form method="get" class="mb-4">
+        <div class="card p-3 shadow-sm">
+            <div class="row g-3 align-items-end">
+                {% for field in filterset.form %}
+                    <div class="col-md-4">
+                        <label class="form-label">{{ field.label }}</label>
+                        {{ field }}
+                    </div>
+                {% endfor %}
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary w-100">Искать</button>
+                </div>
+            </div>
+        </div>
+    </form>
 
-<hr>
+    <!-- Результаты поиска -->
+    <div class="row">
+        {% for post in posts %}
+            <div class="col-md-6 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <a href="{% url 'news_detail' post.pk %}" class="text-decoration-none text-dark">
+                                {{ post.title }}
+                            </a>
+                        </h5>
+                        <p class="card-text">
+                            <small class="text-muted">
+                                Автор: {{ post.author }} <br>
+                                Опубликовано: {{ post.created_at|date:"d.m.Y" }}
+                            </small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p class="text-center text-muted">😔 Ничего не найдено.</p>
+        {% endfor %}
+    </div>
 
-<ul>
-    {% for post in posts %}
-        <li>
-            <a href="{% url 'news_detail' post.pk %}">{{ post.title }}</a>
-            — {{ post.author }}
-            — {{ post.created_at|date:"d.m.Y" }}
-        </li>
-    {% empty %}
-        <li>Ничего не найдено.</li>
-    {% endfor %}
-</ul>
+    <!-- Пагинация -->
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center mt-4">
+            {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1">1</a>
+                </li>
+                {% if page_obj.previous_page_number != 1 %}
+                    <li class="page-item disabled"><span class="page-link">...</span></li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">
+                            {{ page_obj.previous_page_number }}
+                        </a>
+                    </li>
+                {% endif %}
+            {% endif %}
 
-{# Добавляем пагинацию на страницу #}
+            <li class="page-item active">
+                <span class="page-link">{{ page_obj.number }}</span>
+            </li>
 
-{# Информация о предыдущих страницах #}
-{% if page_obj.has_previous %}
-    <a href="?page=1">1</a>
-    {% if page_obj.previous_page_number != 1 %}
-        ...
-        <a href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
-    {% endif %}
-{% endif %}
-
-{# Информация о текущей странице #}
-{{ page_obj.number }}
-
-{# Информация о следующих страницах #}
-{% if page_obj.has_next %}
-    <a href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
-    {% if paginator.num_pages != page_obj.next_page_number %}
-        ...
-        <a href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
-    {% endif %}
-{% endif %}
-
+            {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">
+                        {{ page_obj.next_page_number }}
+                    </a>
+                </li>
+                {% if paginator.num_pages != page_obj.next_page_number %}
+                    <li class="page-item disabled"><span class="page-link">...</span></li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">
+                            {{ page_obj.paginator.num_pages }}
+                        </a>
+                    </li>
+                {% endif %}
+            {% endif %}
+        </ul>
+    </nav>
+</div>
 {% endblock %}

@@ -4,7 +4,24 @@
 {% block title %}{{ post.title|censor }}{% endblock %}
 
 {% block content %}
-<h2>{{ post.title|censor }}</h2>
-<p><em>{{ post.created_at|date:"d.m.Y" }}</em></p>
-<p>{{ post.text|censor }}</p>
+<div class="card shadow-sm mb-4">
+    <div class="card-body">
+        <h2 class="card-title text-center mb-3">
+            {{ post.title|censor }}
+        </h2>
+        <p class="text-muted text-center">
+            Опубликовано: {{ post.created_at|date:"d.m.Y" }}
+        </p>
+        <hr>
+        <div class="card-text" style="line-height: 1.6; font-size: 1.1rem;">
+            {{ post.text|safe|censor }}
+        </div>
+    </div>
+</div>
+
+<div class="text-center">
+    <a href="{% url 'news_list' %}" class="btn btn-outline-secondary">
+        ← Назад к новостям
+    </a>
+</div>
 {% endblock %}

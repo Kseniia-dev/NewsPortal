@@ -3,35 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}NewsPortal{% endblock %}</title>
+    <!-- Подключаем Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            text-align: center; /* всё содержимое по центру */
+            background-color: #f8f9fa; /* светло-серый фон */
         }
         header {
             margin-bottom: 20px;
         }
-        main {
-            max-width: 800px; /* ограничим ширину, чтобы текст не "растягивался" */
-            margin: 0 auto;   /* по центру */
-            text-align: left; /* контент в статьях удобнее читать по левому краю */
+        h1 a {
+            text-decoration: none;
+            color: #0d6efd; /* синий Bootstrap */
         }
-        h1, h2, h3 {
-            text-align: center; /* заголовки всегда по центру */
+        h1 a:hover {
+            color: #0a58ca;
+        }
+        main {
+            background: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1><a href="/news/">News Portal</a></h1>
-        <hr>
+    <!-- Навбар -->
+    <header class="bg-white shadow-sm">
+        <div class="container py-3 text-center">
+            <h1 class="mb-0">
+                <a href="/news/">News Portal</a>
+            </h1>
+        </div>
     </header>
 
-    <main>
+    <!-- Основной контейнер -->
+    <main class="container my-4">
         {% block content %}{% endblock %}
     </main>
+
+    <!-- Bootstrap JS (для dropdown, modal и прочего) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-
 
